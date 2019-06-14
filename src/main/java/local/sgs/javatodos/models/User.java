@@ -9,14 +9,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // User is considered the parent entity
 
 @Entity
 @Table(name = "users")
-public class User extends Auditable {
+public class User implements Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -93,5 +95,55 @@ public class User extends Auditable {
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
         return rtnList;
+    }
+
+    @Override
+    public Optional getCreatedBy() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setCreatedBy(Object o) {
+
+    }
+
+    @Override
+    public Optional getCreatedDate() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setCreatedDate(TemporalAccessor temporalAccessor) {
+
+    }
+
+    @Override
+    public Optional getLastModifiedBy() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setLastModifiedBy(Object o) {
+
+    }
+
+    @Override
+    public Optional getLastModifiedDate() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setLastModifiedDate(TemporalAccessor temporalAccessor) {
+
+    }
+
+    @Override
+    public Object getId() {
+        return null;
+    }
+
+    @Override
+    public boolean isNew() {
+        return false;
     }
 }
