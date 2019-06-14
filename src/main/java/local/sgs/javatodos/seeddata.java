@@ -1,3 +1,16 @@
+package local.sgs.javatodos;
+
+import local.sgs.javatodos.models.Role;
+import local.sgs.javatodos.models.User;
+import local.sgs.javatodos.models.UserRoles;
+import local.sgs.javatodos.repository.RoleRepository;
+import local.sgs.javatodos.repository.UserRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+
 @Transactional
 @Component
 public class SeedData implements CommandLineRunner {
@@ -22,7 +35,6 @@ public class SeedData implements CommandLineRunner {
 
         ArrayList<UserRoles> users = new ArrayList<>();
         users.add(new UserRoles(new User(), r2));
-
         rolerepos.save(r1);
         rolerepos.save(r2);
 

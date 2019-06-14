@@ -1,7 +1,5 @@
 package local.sgs.javatodos.models;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.domain.Auditable;
@@ -14,83 +12,104 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// User is considered the parent entity
-
 @Entity
 @Table(name = "users")
 public class User implements Auditable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
 
-    @Column(nullable = false,
-            unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
-    public User() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private List<Todo> todos = new ArrayList<>();
+
+    public User()
+    {
     }
 
-    public User(String username, String password, List<UserRoles> userRoles){
+    public User(String username, String password, List<UserRoles> userRoles)
+    {
         setUsername(username);
         setPassword(password);
-        for(UserRoles ur : userRoles){
+        for (UserRoles ur : userRoles)
+        {
             ur.setUser(this);
         }
         this.userRoles = userRoles;
     }
 
-    public long getUserid() {
+    public long getUserid()
+    {
         return userid;
     }
 
-    public void setUserid(long userid) {
+    public void setUserid(long userid)
+    {
         this.userid = userid;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);//Encrypts Password
+        this.password = passwordEncoder.encode(password);
     }
 
-    public void setPasswordNoEncrypt(String password){
+    public void setPasswordNoEncrypt(String password)
+    {
         this.password = password;
     }
 
-    public List<UserRoles> getUserRoles() {
+    public List<UserRoles> getUserRoles()
+    {
         return userRoles;
     }
 
-    public void setUserRoles(List<UserRoles> userRoles) {
+    public void setUserRoles(List<UserRoles> userRoles)
+    {
         this.userRoles = userRoles;
     }
 
-    public List<SimpleGrantedAuthority> getAuthority(){//Required by Spring
+    public List<Todo> getTodos()
+    {
+        return todos;
+    }
 
+    public void setTodos(List<Todo> todos)
+    {
+        this.todos = todos;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthority()
+    {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
 
-        for(UserRoles r : this.userRoles){
+        for (UserRoles r : this.userRoles)
+        {
             String myRole = "ROLE_" + r.getRole().getName().toUpperCase();
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
