@@ -48,7 +48,6 @@ public class TodoController
     {
         newTodo = todoService.save(newTodo);
 
-        // set the location header for the newly created resource
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newTodoURI = ServletUriComponentsBuilder.fromCurrentRequest().path("/{todoid}").buildAndExpand(newTodo.getTodoid()).toUri();
         responseHeaders.setLocation(newTodoURI);

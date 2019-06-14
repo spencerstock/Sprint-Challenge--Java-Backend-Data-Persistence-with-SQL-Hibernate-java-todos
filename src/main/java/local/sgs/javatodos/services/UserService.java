@@ -1,11 +1,12 @@
 package local.sgs.javatodos.services;
 
+
 import local.sgs.javatodos.models.User;
 
 import java.util.List;
 
-public interface UserService {
-
+public interface UserService
+{
     List<User> findAll();
 
     User findUserById(long id);

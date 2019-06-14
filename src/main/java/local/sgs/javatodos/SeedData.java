@@ -15,12 +15,12 @@ import java.util.ArrayList;
 
 @Transactional
 @Component
-public class Seeddata implements CommandLineRunner {
+public class SeedData implements CommandLineRunner {
     RoleRepository rolerepos;
     UserRepository userrepos;
     TodoRepository todorepos;
 
-    public Seeddata(RoleRepository rolerepos, UserRepository userrepos, TodoRepository todorepos) {
+    public SeedData(RoleRepository rolerepos, UserRepository userrepos, TodoRepository todorepos) {
         this.rolerepos = rolerepos;
         this.userrepos = userrepos;
         this.todorepos = todorepos;
@@ -36,7 +36,7 @@ public class Seeddata implements CommandLineRunner {
         admins.add(new UserRoles(new User(), r2));
 
         ArrayList<UserRoles> users = new ArrayList<>();
-        users.add(new UserRoles(new User(), r2));
+        //users.add(new UserRoles(new User(), r2));
         rolerepos.save(r1);
         rolerepos.save(r2);
 
@@ -53,9 +53,9 @@ public class Seeddata implements CommandLineRunner {
         u3.getTodos().add(new Todo("Walk the dogs", "2019-01-17 04:04:04", u3));
         u3.getTodos().add(new Todo("provide feedback to my instructor", "2019-02-13 04:04:04", u3));
 
-/*        userrepos.save(u1);
+        userrepos.save(u1);
         userrepos.save(u2);
         userrepos.save(u3);
-        userrepos.save(u4);*/
+        userrepos.save(u4);
     }
 }

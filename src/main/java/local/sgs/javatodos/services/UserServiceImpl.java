@@ -1,5 +1,6 @@
 package local.sgs.javatodos.services;
 
+import local.sgs.javatodos.models.Todo;
 import local.sgs.javatodos.models.User;
 import local.sgs.javatodos.models.UserRoles;
 import local.sgs.javatodos.repository.RoleRepository;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService
@@ -41,8 +41,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
     public User findUserById(long id) throws EntityNotFoundException
     {
-        return userrepos.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        return userrepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 
     public List<User> findAll()
@@ -58,8 +57,7 @@ public class UserServiceImpl implements UserDetailsService, UserService
         if (userrepos.findById(id).isPresent())
         {
             userrepos.deleteById(id);
-        }
-        else
+        } else
         {
             throw new EntityNotFoundException(Long.toString(id));
         }
@@ -79,6 +77,11 @@ public class UserServiceImpl implements UserDetailsService, UserService
             newRoles.add(new UserRoles(newUser, ur.getRole()));
         }
         newUser.setUserRoles(newRoles);
+
+        for (Todo t : user.getTodos())
+        {
+            newUser.getTodos().add(new Todo(t.getDescription(), t.getDatestarted(), newUser));
+        }
 
         return userrepos.save(newUser);
     }
@@ -118,14 +121,19 @@ public class UserServiceImpl implements UserDetailsService, UserService
                     }
                 }
 
+                if (user.getTodos().size() > 0)
+                {
+                    for (Todo t : user.getTodos())
+                    {
+                        currentUser.getTodos().add(new Todo(t.getDescription(), t.getDatestarted(), currentUser));
+                    }
+                }
                 return userrepos.save(currentUser);
-            }
-            else
+            } else
             {
                 throw new EntityNotFoundException(Long.toString(id) + " Not current user");
             }
-        }
-        else
+        } else
         {
             throw new EntityNotFoundException(authentication.getName());
         }

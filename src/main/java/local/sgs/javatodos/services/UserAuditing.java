@@ -7,12 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-//Gets Current User
-//Defaults to SYSTEM
 @Component
 public class UserAuditing implements AuditorAware<String>
 {
-
     @Override
     public Optional<String> getCurrentAuditor()
     {
@@ -21,8 +18,7 @@ public class UserAuditing implements AuditorAware<String>
         if (authentication != null)
         {
             uname = authentication.getName();
-        }
-        else
+        } else
         {
             uname = "SYSTEM";
         }
