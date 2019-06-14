@@ -18,4 +18,6 @@ public interface TodoService
     Todo save(Todo todo);
 
     Todo update(Todo receivedTodo, long todoid);
+
+    List<Todo> findAllById(long id);
 }

@@ -1,6 +1,8 @@
 package local.sgs.javatodos.controller;
 
+import local.sgs.javatodos.models.Todo;
 import local.sgs.javatodos.models.User;
+import local.sgs.javatodos.services.TodoService;
 import local.sgs.javatodos.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +27,9 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TodoService todoService;
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/users", produces = {"application/json"})
     public ResponseEntity<?> listAllUsers()
@@ -41,11 +46,14 @@ public class UserController
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getusername", produces = {"application/json"})
+    @GetMapping(value = "/mine", produces = {"application/json"})
     @ResponseBody
     public ResponseEntity<?> getCurrentUserName(Authentication authentication)
     {
-        return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
+
+        List<Todo> theTodos = todoService.findByUserName(authentication.getName());
+        return new ResponseEntity<>(theTodos, HttpStatus.OK);
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -77,4 +85,7 @@ public class UserController
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
 }

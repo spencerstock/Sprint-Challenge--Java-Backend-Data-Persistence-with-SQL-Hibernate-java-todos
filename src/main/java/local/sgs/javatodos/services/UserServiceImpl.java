@@ -4,6 +4,7 @@ import local.sgs.javatodos.models.Todo;
 import local.sgs.javatodos.models.User;
 import local.sgs.javatodos.models.UserRoles;
 import local.sgs.javatodos.repository.RoleRepository;
+import local.sgs.javatodos.repository.TodoRepository;
 import local.sgs.javatodos.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,12 +22,14 @@ import java.util.List;
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService
 {
-
     @Autowired
     private UserRepository userrepos;
 
     @Autowired
     private RoleRepository rolerepos;
+
+    @Autowired
+    private TodoRepository todorepos;
 
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -41,7 +44,8 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
     public User findUserById(long id) throws EntityNotFoundException
     {
-        return userrepos.findById(id).orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+        return userrepos.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
     }
 
     public List<User> findAll()
@@ -52,12 +56,18 @@ public class UserServiceImpl implements UserDetailsService, UserService
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return userrepos.findByUsername(username);
+    }
+
+    @Override
     public void delete(long id)
     {
         if (userrepos.findById(id).isPresent())
         {
             userrepos.deleteById(id);
-        } else
+        }
+        else
         {
             throw new EntityNotFoundException(Long.toString(id));
         }
@@ -78,10 +88,6 @@ public class UserServiceImpl implements UserDetailsService, UserService
         }
         newUser.setUserRoles(newRoles);
 
-        for (Todo t : user.getTodos())
-        {
-            newUser.getTodos().add(new Todo(t.getDescription(), t.getDatestarted(), newUser));
-        }
 
         return userrepos.save(newUser);
     }
@@ -109,31 +115,21 @@ public class UserServiceImpl implements UserDetailsService, UserService
 
                 if (user.getUserRoles().size() > 0)
                 {
-                    // with so many relationships happening, I decided to go
-                    // with old school queries
-                    // delete the old ones
                     rolerepos.deleteUserRolesByUserId(currentUser.getUserid());
-
-                    // add the new ones
                     for (UserRoles ur : user.getUserRoles())
                     {
                         rolerepos.insertUserRoles(id, ur.getRole().getRoleid());
                     }
                 }
 
-                if (user.getTodos().size() > 0)
-                {
-                    for (Todo t : user.getTodos())
-                    {
-                        currentUser.getTodos().add(new Todo(t.getDescription(), t.getDatestarted(), currentUser));
-                    }
-                }
                 return userrepos.save(currentUser);
-            } else
+            }
+            else
             {
                 throw new EntityNotFoundException(Long.toString(id) + " Not current user");
             }
-        } else
+        }
+        else
         {
             throw new EntityNotFoundException(authentication.getName());
         }
