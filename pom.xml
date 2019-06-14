@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>local.sgs</groupId>
-    <artifactId>kotlin-backend-data-persistence-with-sqp-hibernate-java-todos</artifactId>
+    <artifactId>java-todos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kotlin-backend-data-persistence-with-sqp-hibernate-java-todos</name>
     <description>Demo project for Spring Boot</description>
@@ -56,6 +56,16 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.199</version>
         </dependency>
     </dependencies>
 
