@@ -51,12 +51,12 @@ public class TodoServiceImpl implements TodoService
         }
     }
 
-
     @Transactional
-    public Todo save(Todo todo) {
-        return null;
+    @Override
+    public Todo save(Todo todo)
+    {
+        return todorepos.save(todo);
     }
-
 
     @Override
     public List<Todo> findByUserName(String username)

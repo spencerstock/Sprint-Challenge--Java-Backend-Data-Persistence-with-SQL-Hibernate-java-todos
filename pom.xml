@@ -11,7 +11,7 @@
     <groupId>com.lambdaschool</groupId>
     <artifactId>javatodos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kotlin-backend-data-persistence-with-sqp-hibernate-java-todos</name>
+    <name>kotlin-backend-data-persistence-with-sqp-hibernate-java-toDos</name>
     <description>Java Todos project for Spring Boot</description>
 
     <properties>

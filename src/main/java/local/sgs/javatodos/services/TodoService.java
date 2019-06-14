@@ -15,5 +15,5 @@ public interface TodoService
 
     void delete(long id);
 
-    local.sgs.javatodos.models.Todo save(Todo todo);
+    Todo save(Todo todo);
 }

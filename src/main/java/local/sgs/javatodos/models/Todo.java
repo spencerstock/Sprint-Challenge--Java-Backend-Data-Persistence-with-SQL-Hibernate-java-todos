@@ -1,14 +1,16 @@
 package local.sgs.javatodos.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.domain.Auditable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.temporal.TemporalAccessor;
+import java.util.Optional;
 
 @Entity
 @Table(name = "todos")
-public class Todo extends Auditable
-{
+public class Todo implements Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long todoid;
@@ -86,5 +88,55 @@ public class Todo extends Auditable
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    @Override
+    public Optional getCreatedBy() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setCreatedBy(Object o) {
+
+    }
+
+    @Override
+    public Optional getCreatedDate() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setCreatedDate(TemporalAccessor temporalAccessor) {
+
+    }
+
+    @Override
+    public Optional getLastModifiedBy() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setLastModifiedBy(Object o) {
+
+    }
+
+    @Override
+    public Optional getLastModifiedDate() {
+        return Optional.empty();
+    }
+
+    @Override
+    public void setLastModifiedDate(TemporalAccessor temporalAccessor) {
+
+    }
+
+    @Override
+    public Object getId() {
+        return null;
+    }
+
+    @Override
+    public boolean isNew() {
+        return false;
     }
 }

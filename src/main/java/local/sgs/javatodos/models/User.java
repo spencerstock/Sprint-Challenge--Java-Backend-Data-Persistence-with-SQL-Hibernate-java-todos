@@ -2,19 +2,17 @@ package local.sgs.javatodos.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.domain.Auditable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "users")
-public class User implements Auditable {
+public class User extends Auditable
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
@@ -31,7 +29,7 @@ public class User implements Auditable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("user")
-    private List<Todo> todos = new ArrayList<>();
+    private List<Todo> toDos = new ArrayList<>();
 
     public User()
     {
@@ -96,12 +94,12 @@ public class User implements Auditable {
 
     public List<Todo> getTodos()
     {
-        return todos;
+        return toDos;
     }
 
-    public void setTodos(List<Todo> todos)
+    public void setTodos(List<Todo> toDos)
     {
-        this.todos = todos;
+        this.toDos = toDos;
     }
 
     public List<SimpleGrantedAuthority> getAuthority()
@@ -114,55 +112,5 @@ public class User implements Auditable {
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
         return rtnList;
-    }
-
-    @Override
-    public Optional getCreatedBy() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setCreatedBy(Object o) {
-
-    }
-
-    @Override
-    public Optional getCreatedDate() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setCreatedDate(TemporalAccessor temporalAccessor) {
-
-    }
-
-    @Override
-    public Optional getLastModifiedBy() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setLastModifiedBy(Object o) {
-
-    }
-
-    @Override
-    public Optional getLastModifiedDate() {
-        return Optional.empty();
-    }
-
-    @Override
-    public void setLastModifiedDate(TemporalAccessor temporalAccessor) {
-
-    }
-
-    @Override
-    public Object getId() {
-        return null;
-    }
-
-    @Override
-    public boolean isNew() {
-        return false;
     }
 }
