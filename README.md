@@ -1,4 +1,4 @@
-# java-todos
+# java-toDos
 
 A student that completes this project shows that they can
 * perform CRUD operations on an RDBMS using JPA and Hibernate.
@@ -24,7 +24,7 @@ This is a basic todo database scheme with users and a todo list.
 
 Create a REST api service to store and read data from H2 database. 
 * seeddata.java is a sample script that can be modified to populate the database 
-* note that all new todos default to completed = false;
+* note that all new toDos default to completed = false;
 
 The table layouts are as follows:
 
@@ -35,7 +35,7 @@ The table layouts are as follows:
   * description string, not null
   * datestarted datetime
   * completed boolean
-  * userid foreign key (one user to many todos) not null 
+  * userid foreign key (one user to many toDos) not null 
 
 * USERS
   * userid primary key, not null long
@@ -56,8 +56,8 @@ Expose the following end points
 * GET /users/mine - return the user and todo based off of the authenticated user. You can only look up your own.
 * POST /users - adds a user. Can only be done by an admin.
 * POST /users/todo/{userid} - adds a todo to the assigned user. Can be done by any user.
-* PUT /todos/todoid/{todoid} - updates a todo based on todoid. Can be done by any user.
-* DELETE /users/userid/{userid} - Deletes a user based off of their userid and deletes all their associated todos. Can only be done by an admin.
+* PUT /toDos/todoid/{todoid} - updates a todo based on todoid. Can be done by any user.
+* DELETE /users/userid/{userid} - Deletes a user based off of their userid and deletes all their associated toDos. Can only be done by an admin.
 
 * hint - think about taking the project https://github.com/LambdaSchool/java-oauth2.git and modifying it to fit this application
   * StartHere is a base Java Spring Back end system still under development. However, it does contain what you need for today.
@@ -79,6 +79,6 @@ Add logging for
 
 * Update the end points below:
   * POST /users/todo/{userid} - adds a todo to the assigned user. Can only be done by the authenticated user. A user can only modify their own data.
-  * PUT /todos/todoid/{todoid} - updates a todo based on todoid. Can only be done by the authenticated user. A user can only modify their own data.
+  * PUT /toDos/todoid/{todoid} - updates a todo based on todoid. Can only be done by the authenticated user. A user can only modify their own data.
 * add appropriate end points to manage users giving only admin access to these.
 * Deploy to Heroku using H2
